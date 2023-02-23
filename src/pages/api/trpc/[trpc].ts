@@ -4,6 +4,8 @@ import { env } from "~/env.mjs"
 import { createTRPCContext } from "~/server/api/trpc"
 import { appRouter } from "~/server/api/root"
 
+const ONE_DAY_SECONDS = 60 * 60 * 24
+
 // export API handler
 export default createNextApiHandler({
   router: appRouter,
@@ -16,4 +18,16 @@ export default createNextApiHandler({
           )
         }
       : undefined,
+  responseMeta: ({ type, errors }) => {
+    const allOk = errors.length === 0
+    const isQuery = type === "query"
+    if (allOk && isQuery) {
+      return {
+        headers: {
+          "cache-control": `s-maxage=${ONE_DAY_SECONDS}, stale-while-revalidate`,
+        },
+      }
+    }
+    return {}
+  },
 })

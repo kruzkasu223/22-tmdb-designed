@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.card-glass-bg-opacity {
+  --glass-blur: 8px;
+}
+
+.card-glass-bg-opacity:hover {
+  --glass-border-opacity: 35%;
+}
+
+.card-glass-content-opacity {
+  --glass-opacity: 65%;
+  --glass-blur: 100px;
+}
